@@ -5,7 +5,24 @@ import React, {useState} from 'react';
 export default function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [validUsername, setValidUsername] = useState(true);
+  const [validPassword, setValidPassword] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  function validateUser() {
+    if (username.length >= 3 && password.length >= 6) {
+      setValidUsername(true);
+      setValidPassword(true);
+      handleLogin();
+    } else {
+      if (username.length < 3) {
+        setValidUsername(false);
+      }
+      if (password.length < 6) {
+        setValidPassword(false);
+      }
+    }
+  }
 
   function handleLogin() {
     setIsLoading(true);
@@ -43,10 +60,14 @@ export default function App() {
           onPress={() => setIsLoading(false)}
         />
 
+        {!validUsername || !validPassword ? (
+        <Text style={styles.invalidText}>Invalid username or password</Text>
+        ) : null}
+
         <Pressable 
           style={styles.loginButton}
           disabled={isLoading}
-          onPress={() => handleLogin()}
+          onPress={() => validateUser()}
         >
           <Text style={styles.text}>{isLoading ? 'Loading...' : 'Login'}</Text>
         </Pressable>
@@ -75,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     margin: 8,
     paddingVertical: 8,
-    color: 'red',
+    color: '#fff',
     borderBottomColor: '#9b9b9b',
     borderBottomWidth: 1
   },
@@ -87,5 +108,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#9b9b9b' 
+  },
+  invalidText: {
+    color: '#f00',
+    fontSize: 18,
+    lineHeight: 21,
+    margin: 8,
   },
 });
