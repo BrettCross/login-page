@@ -7,6 +7,13 @@ export default function App() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  function handleLogin() {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -38,8 +45,8 @@ export default function App() {
 
         <Pressable 
           style={styles.loginButton}
-          onPress={() => setIsLoading(true)}
           disabled={isLoading}
+          onPress={() => handleLogin()}
         >
           <Text style={styles.text}>{isLoading ? 'Loading...' : 'Login'}</Text>
         </Pressable>
