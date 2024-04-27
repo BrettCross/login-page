@@ -54,18 +54,15 @@ export default function App() {
           editable={!isLoading}
           />
 
-        <Button 
-          title="Forgot Password?"
-          color="#9b9b9b"
-          onPress={() => setIsLoading(false)}
-        />
-
         {!validUsername || !validPassword ? (
         <Text style={styles.invalidText}>Invalid username or password</Text>
         ) : null}
 
         <Pressable 
-          style={styles.loginButton}
+          style={({pressed}) => [
+            {
+              backgroundColor: pressed ? '#6b6b6b' : '#9b9b9b',
+            }, styles.loginButton]}
           disabled={isLoading}
           onPress={() => validateUser()}
         >
@@ -107,7 +104,7 @@ const styles = StyleSheet.create({
     margin: 8,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#9b9b9b' 
+    //backgroundColor: '#9b9b9b' 
   },
   invalidText: {
     color: '#f00',
