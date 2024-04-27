@@ -1,7 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, SafeAreaView, Pressable } from 'react-native';
+import React, {useState} from 'react';
 
 export default function App() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -9,22 +14,34 @@ export default function App() {
         <TextInput
           style={styles.textInput}
           placeholder="example@gmail.com"
-          placeholderTextColor='#9b9b9b'/>
-
+          placeholderTextColor='#9b9b9b'
+          onChangeText={ newText => setUsername(newText) }
+          defaultValue={username}
+          editable={!isLoading}
+          />
+      
         <Text style={styles.text}>Password</Text>
         <TextInput
           style={styles.textInput}
           placeholder="minimum 6 characters"
-          placeholderTextColor='#9b9b9b'/>
+          placeholderTextColor='#9b9b9b'
+          onChangeText={ newText => setPassword(newText) }
+          defaultValue={password}
+          editable={!isLoading}
+          />
 
         <Button 
           title="Forgot Password?"
           color="#9b9b9b"
-          onPress={() => null}
+          onPress={() => setIsLoading(false)}
         />
 
-        <Pressable style={styles.button}>
-          <Text style={styles.text}>Login</Text>
+        <Pressable 
+          style={styles.loginButton}
+          onPress={() => setIsLoading(true)}
+          disabled={isLoading}
+        >
+          <Text style={styles.text}>{isLoading ? 'Loading...' : 'Login'}</Text>
         </Pressable>
         
         <StatusBar style="auto" />
@@ -55,7 +72,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#9b9b9b',
     borderBottomWidth: 1
   },
-  button: { 
+  loginButton: { 
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 32,
